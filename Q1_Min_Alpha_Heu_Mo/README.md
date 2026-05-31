@@ -87,7 +87,7 @@ Board:
 
 ## X | O |
 
-## | | O
+## |  | O
 
 Expected Result:
 
