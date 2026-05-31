@@ -50,33 +50,43 @@ The program analyzes available destinations, estimates travel expenses, and sugg
 ```text
 Enter Your Name: Akash
 Enter Your Budget (₹): 25000
-Enter Your Interest: Nature
+Enter Your Interest (Beach, Adventure, Culture, Food, Mountain, Nature, Spiritual): Nature
 Enter Number of Days: 4
 ```
 
 ### Output
 
 ```text
-PERSONALIZED TRAVEL PLAN
+    PERSONALIZED TRAVEL PLAN:
 
 Name: Akash
 Destination: Munnar
 Interest: Nature
 Trip Duration: 4 Days
-
+Budget: 25000
+Hotel Cost: 12800
+Travel Cost: 6500
+Activities Cost: 2000
+Total Estimated Cost: 21300
+Remaining Budget: 3700
 Food Recommendations:
-- Appam
-- Kerala Curry
-
+  - Appam
+  - Kerala Curry
+Activities:
+  - Tea Gardens
+  - Eravikulam National Park
+  - Boating
 Tour Plan:
-- Day 1 - Arrival and Local Sightseeing
-- Day 2 - Tea Gardens
-- Day 3 - Eravikulam National Park
-- Day 4 - Shopping and Return Journey
+  - Day 1 - Arrival and Local Sightseeing
+  - Day 2 - Tea Gardens
+  - Day 3 - Eravikulam National Park
+  - Day 4 - Shopping and Return Journey
 
-AI Suggestions:
+AI Suggestions
 - Carry a camera and suitable outdoor clothing
 - Visit tea gardens during daylight hours for the best experience
+
+Thank you for using AI Travel Planner
 ```
 
 ---
