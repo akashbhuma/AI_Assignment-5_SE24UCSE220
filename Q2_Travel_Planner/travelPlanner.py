@@ -45,7 +45,7 @@ class TravelPlanner:
             }
         }
 
-    def generate_plan(self, name, budget, interest, days):
+    def generatePlan(self, name, budget, interest, days):
         matches = []
         for place, info in self.destinations.items():
             if interest in info["interest"]:
@@ -105,7 +105,7 @@ interest = input(
 )
 days = int(input("Enter Number of Days: "))
 
-plan = planner.generate_plan(name, budget, interest, days)
+plan = planner.generatePlan(name, budget, interest, days)
 
 if plan:
     print("\nPERSONALIZED TRAVEL PLAN:\n")
@@ -159,6 +159,6 @@ if plan:
     if plan["Destination"] == "Kochi":
         print("- Take a backwater cruise and try local seafood")
 
-    print("\nThank you for using AI Travel Planner!")
+    print("\nThank you for using AI Travel Planner")
 else:
     print("\nNo destination matches your budget and interests.")
