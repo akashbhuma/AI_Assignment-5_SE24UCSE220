@@ -132,7 +132,7 @@ Requirements:
 Execute:
 
 ```bash
-python game_search.py
+python gameSearch.py
 ```
 
 The program will:
