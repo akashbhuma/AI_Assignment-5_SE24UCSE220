@@ -44,16 +44,15 @@ class TravelPlanner:
                 "travel": 5500
             }
         }
-        
 
-    def generate_plan(self, name, budget, interest):
+    def generate_plan(self, name, budget, interest, days):
         matches = []
-
         for place, info in self.destinations.items():
             if interest in info["interest"]:
-                hotel_cost = info["hotel"] * 3
+
+                hotel_cost = info["hotel"] * days
                 travel_cost = info["travel"]
-                activity_cost = 2000
+                activity_cost = days * 500
 
                 total_cost = hotel_cost + travel_cost + activity_cost
 
@@ -69,24 +68,31 @@ class TravelPlanner:
 
         remaining = budget - total_cost
 
+        itinerary = []
+
+        for day in range(1, days + 1):
+            if day == 1:
+                itinerary.append(f"Day {day} - Arrival and Local Sightseeing")
+            elif day == days:
+                itinerary.append(f"Day {day} - Shopping and Return Journey")
+            else:
+                activity = info["activities"][(day - 2) % len(info["activities"])]
+                itinerary.append(f"Day {day} - {activity}")
+
         return {
             "Name": name,
             "Destination": place,
             "Interest": interest,
+            "Trip Duration": f"{days} Days",
             "Budget": budget,
-            "Hotel Cost (3 Nights)": info["hotel"] * 3,
-            "Travel Cost": info["travel"],
-            "Activities Cost": 2000,
+            "Hotel Cost": hotel_cost,
+            "Travel Cost": travel_cost,
+            "Activities Cost": activity_cost,
             "Total Estimated Cost": total_cost,
             "Remaining Budget": remaining,
             "Food Recommendations": info["food"],
             "Activities": info["activities"],
-            "Tour Plan": [
-                "Day 1 - Arrival and Local Sightseeing",
-                "Day 2 - Major Attractions and Activities",
-                "Day 3 - Food Exploration and Shopping",
-                "Day 4 - Return Journey"
-            ]
+            "Tour Plan": itinerary
         }
 
 
@@ -95,13 +101,14 @@ planner = TravelPlanner()
 name = input("Enter Your Name: ")
 budget = int(input("Enter Your Budget (₹): "))
 interest = input(
-    "Enter Your Interest (Beach, Adventure, History, Culture, Mountain, Nature, Food): "
+    "Enter Your Interest (Beach, Adventure, Culture, Food, Mountain, Nature, Spiritual): "
 )
+days = int(input("Enter Number of Days: "))
 
-plan = planner.generate_plan(name, budget, interest)
+plan = planner.generate_plan(name, budget, interest, days)
 
 if plan:
-    print("\n========== PERSONALIZED TRAVEL PLAN ==========\n")
+    print("\nPERSONALIZED TRAVEL PLAN:\n")
 
     for key, value in plan.items():
         if isinstance(value, list):
