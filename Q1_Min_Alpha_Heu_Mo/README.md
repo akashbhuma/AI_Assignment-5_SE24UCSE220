@@ -54,7 +54,7 @@ The board positions are numbered as:
 
 ## 3 | 4 | 5
 
-6 | 7 | 8
+## 6 | 7 | 8
 
 ---
 
@@ -70,7 +70,7 @@ Board:
 
 ## O | X | O
 
-O | X |
+## O | X |
 
 Expected Result:
 
@@ -87,7 +87,7 @@ Board:
 
 ## X | O |
 
-##| | O
+## | | O
 
 Expected Result:
 
