@@ -1,8 +1,8 @@
-# Game Search Algorithms for Tic-Tac-Toe
+# Game Search Algorithms
 
 ## Overview
 
-This project implements four game search algorithms for the Tic-Tac-Toe game:
+This code implements four game search algorithms for the Tic-Tac-Toe game:
 
 * Minimax Search
 * Alpha-Beta Search
@@ -137,7 +137,7 @@ python gameSearch.py
 
 The program will:
 
-1. Run the complete test suite.
+1. Run the complete test.
 2. Display the test results.
 3. Demonstrate the behavior of all four algorithms on a sample Tic-Tac-Toe board.
 
@@ -145,4 +145,4 @@ The program will:
 
 ## Conclusion
 
-This project successfully implements and evaluates Minimax, Alpha-Beta Search, Heuristic Alpha-Beta Search, and Monte Carlo Tree Search for Tic-Tac-Toe. The algorithms were verified using multiple test cases and produced correct results across all evaluations.
+This code successfully implements and evaluates Minimax, Alpha-Beta Search, Heuristic Alpha-Beta Search, and Monte Carlo Tree Search for Tic-Tac-Toe. The algorithms were verified using multiple test cases and produced correct results across all evaluations.
