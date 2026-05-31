@@ -14,14 +14,14 @@ class TicTacToe:
         g.current_player = self.current_player
         return g
 
-    def get_legal_moves(self):
+    def getLegalMoves(self):
         return [i for i, v in enumerate(self.board) if v == " "]
 
-    def make_move(self, move):
+    def makeMove(self, move):
         self.board[move] = self.current_player
         self.current_player = "O" if self.current_player == "X" else "X"
 
-    def check_winner(self):
+    def checkWinner(self):
         wins = [
             (0,1,2),(3,4,5),(6,7,8),
             (0,3,6),(1,4,7),(2,5,8),
@@ -33,10 +33,10 @@ class TicTacToe:
         return None
 
     def is_terminal(self):
-        return self.check_winner() is not None or not self.get_legal_moves()
+        return self.checkWinner() is not None or not self.getLegalMoves()
 
     def get_result(self, player):
-        winner = self.check_winner()
+        winner = self.checkWinner()
         if winner is None:
             return 0
         return 1 if winner == player else -1
@@ -56,29 +56,29 @@ def minimax(state, maximizing, original_player):
 
     if maximizing:
         best = -math.inf
-        for move in state.get_legal_moves():
+        for move in state.getLegalMoves():
             child = state.clone()
-            child.make_move(move)
+            child.makeMove(move)
             val = minimax(child, False, original_player)
             best = max(best, val)
         return best
     else:
         best = math.inf
-        for move in state.get_legal_moves():
+        for move in state.getLegalMoves():
             child = state.clone()
-            child.make_move(move)
+            child.makeMove(move)
             val = minimax(child, True, original_player)
             best = min(best, val)
         return best
 
 
-def minimax_best_move(state):
+def minimaxBestMove(state):
     original_player = state.current_player
     best_val = -math.inf
     best_move = None
-    for move in state.get_legal_moves():
+    for move in state.getLegalMoves():
         child = state.clone()
-        child.make_move(move)
+        child.makeMove(move)
         val = minimax(child, False, original_player)
         if val > best_val:
             best_val = val
@@ -86,42 +86,42 @@ def minimax_best_move(state):
     return best_move, best_val
 
 
-def alpha_beta(state, alpha, beta, maximizing, original_player):
+def alphaBeta(state, alpha, beta, maximizing, original_player):
     if state.is_terminal():
         return state.get_result(original_player)
 
     if maximizing:
         val = -math.inf
-        for move in state.get_legal_moves():
+        for move in state.getLegalMoves():
             child = state.clone()
-            child.make_move(move)
-            val = max(val, alpha_beta(child, alpha, beta, False, original_player))
+            child.makeMove(move)
+            val = max(val, alphaBeta(child, alpha, beta, False, original_player))
             alpha = max(alpha, val)
             if alpha >= beta:
                 break
         return val
     else:
         val = math.inf
-        for move in state.get_legal_moves():
+        for move in state.getLegalMoves():
             child = state.clone()
-            child.make_move(move)
-            val = min(val, alpha_beta(child, alpha, beta, True, original_player))
+            child.makeMove(move)
+            val = min(val, alphaBeta(child, alpha, beta, True, original_player))
             beta = min(beta, val)
             if beta <= alpha:
                 break
         return val
 
 
-def alpha_beta_best_move(state):
+def alphabetaBestMove(state):
     original_player = state.current_player
     best_val = -math.inf
     best_move = None
     alpha = -math.inf
     beta = math.inf
-    for move in state.get_legal_moves():
+    for move in state.getLegalMoves():
         child = state.clone()
-        child.make_move(move)
-        val = alpha_beta(child, alpha, beta, False, original_player)
+        child.makeMove(move)
+        val = alphaBeta(child, alpha, beta, False, original_player)
         if val > best_val:
             best_val = val
             best_move = move
@@ -129,13 +129,13 @@ def alpha_beta_best_move(state):
     return best_move, best_val
 
 
-def tictactoe_heuristic(state, player):
-    winner = state.check_winner()
+def tictactoeHeuristic(state, player):
+    winner = state.checkWinner()
     if winner == player:
         return 100
     if winner is not None:
         return -100
-    if not state.get_legal_moves():
+    if not state.getLegalMoves():
         return 0
 
     opponent = "O" if player == "X" else "X"
@@ -156,7 +156,7 @@ def tictactoe_heuristic(state, player):
     return score
 
 
-def heuristic_alpha_beta(state, depth, alpha, beta, maximizing, original_player, heuristic_fn):
+def heuristicAlphabeta(state, depth, alpha, beta, maximizing, original_player, heuristic_fn):
     if state.is_terminal():
         return state.get_result(original_player) * 1000
 
@@ -165,36 +165,36 @@ def heuristic_alpha_beta(state, depth, alpha, beta, maximizing, original_player,
 
     if maximizing:
         val = -math.inf
-        for move in state.get_legal_moves():
+        for move in state.getLegalMoves():
             child = state.clone()
-            child.make_move(move)
-            val = max(val, heuristic_alpha_beta(child, depth - 1, alpha, beta, False, original_player, heuristic_fn))
+            child.makeMove(move)
+            val = max(val, heuristicAlphabeta(child, depth - 1, alpha, beta, False, original_player, heuristic_fn))
             alpha = max(alpha, val)
             if alpha >= beta:
                 break
         return val
     else:
         val = math.inf
-        for move in state.get_legal_moves():
+        for move in state.getLegalMoves():
             child = state.clone()
-            child.make_move(move)
-            val = min(val, heuristic_alpha_beta(child, depth - 1, alpha, beta, True, original_player, heuristic_fn))
+            child.makeMove(move)
+            val = min(val, heuristicAlphabeta(child, depth - 1, alpha, beta, True, original_player, heuristic_fn))
             beta = min(beta, val)
             if beta <= alpha:
                 break
         return val
 
 
-def heuristic_alpha_beta_best_move(state, depth, heuristic_fn):
+def heuristicAlphabetaBestMove(state, depth, heuristic_fn):
     original_player = state.current_player
     best_val = -math.inf
     best_move = None
     alpha = -math.inf
     beta = math.inf
-    for move in state.get_legal_moves():
+    for move in state.getLegalMoves():
         child = state.clone()
-        child.make_move(move)
-        val = heuristic_alpha_beta(child, depth - 1, alpha, beta, False, original_player, heuristic_fn)
+        child.makeMove(move)
+        val = heuristicAlphabeta(child, depth - 1, alpha, beta, False, original_player, heuristic_fn)
         if val > best_val:
             best_val = val
             best_move = move
@@ -210,7 +210,7 @@ class MCTSNode:
         self.children = []
         self.visits = 0
         self.wins = 0
-        self.untried_moves = state.get_legal_moves()
+        self.untried_moves = state.getLegalMoves()
 
     def is_fully_expanded(self):
         return len(self.untried_moves) == 0
@@ -229,7 +229,7 @@ class MCTSNode:
     def expand(self):
         move = self.untried_moves.pop(random.randrange(len(self.untried_moves)))
         child_state = self.state.clone()
-        child_state.make_move(move)
+        child_state.makeMove(move)
         child = MCTSNode(child_state, parent=self, move=move)
         self.children.append(child)
         return child
@@ -237,8 +237,8 @@ class MCTSNode:
     def rollout(self):
         sim = self.state.clone()
         while not sim.is_terminal():
-            moves = sim.get_legal_moves()
-            sim.make_move(random.choice(moves))
+            moves = sim.getLegalMoves()
+            sim.makeMove(random.choice(moves))
         return sim
 
     def backpropagate(self, result_state, root_player):
@@ -265,16 +265,14 @@ def mcts_best_move(state, iterations=1000):
         node.backpropagate(result_state, root_player)
 
     if not root.children:
-        moves = state.get_legal_moves()
+        moves = state.getLegalMoves()
         return (random.choice(moves) if moves else None), 0
     best = max(root.children, key=lambda n: n.visits)
     return best.move, best.wins / best.visits if best.visits else 0
 
 
 def run_tests():
-    print("=" * 60)
-    print("TEST SUITE: GAME SEARCH ALGORITHMS")
-    print("=" * 60)
+    print("TESTING GAME SEARCH ALGORITHMS")
 
     total_passed = 0
     total_failed = 0
@@ -289,54 +287,54 @@ def run_tests():
         else:
             total_failed += 1
 
-    print("\n--- Minimax ---")
+    print("\nMinimax:")
 
     g = TicTacToe()
     g.board = ["X","O","X", "O","X","O", " "," ","X"]
     g.current_player = "O"
-    winner = g.check_winner()
+    winner = g.checkWinner()
     check("Terminal: X wins diagonal", winner == "X")
 
     g = TicTacToe()
     g.board = ["X","O","X", "O","X","O", "O","X"," "]
     g.current_player = "X"
-    move, val = minimax_best_move(g)
+    move, val = minimaxBestMove(g)
     check("Minimax: wins immediately", move == 8 and val == 1, f"move={move}, val={val}")
 
     g = TicTacToe()
     g.board = ["O","X","X", "X","O"," ", " "," ","O"]
     g.current_player = "X"
-    move, val = minimax_best_move(g)
+    move, val = minimaxBestMove(g)
     check("Minimax: blocks O win (pos 5)", move == 5, f"move={move}")
 
     g = TicTacToe()
-    move, val = minimax_best_move(g)
+    move, val = minimaxBestMove(g)
     check("Minimax: empty board returns valid move", move in range(9), f"move={move}")
     check("Minimax: empty board val is 0 (draw)", val == 0, f"val={val}")
 
     g = TicTacToe()
     g.board = ["X","O","X", "O","O","X", "X","X","O"]
     g.current_player = "X"
-    check("Terminal: full board no winner", g.is_terminal() and g.check_winner() is None)
+    check("Terminal: full board no winner", g.is_terminal() and g.checkWinner() is None)
     check("Terminal: get_result draw = 0", g.get_result("X") == 0)
 
-    print("\n--- Alpha-Beta ---")
+    print("\nAlpha-Beta:")
 
     g = TicTacToe()
     g.board = ["X","O","X", "O","X","O", "O","X"," "]
     g.current_player = "X"
-    ab_move, ab_val = alpha_beta_best_move(g)
+    ab_move, ab_val = alphabetaBestMove(g)
     check("Alpha-Beta: wins immediately", ab_move == 8 and ab_val == 1, f"move={ab_move}, val={ab_val}")
 
     g = TicTacToe()
     g.board = ["O","X","X", "X","O"," ", " "," ","O"]
     g.current_player = "X"
-    ab_move, _ = alpha_beta_best_move(g)
+    ab_move, _ = alphabetaBestMove(g)
     check("Alpha-Beta: blocks O win (pos 5)", ab_move == 5, f"move={ab_move}")
 
     g = TicTacToe()
-    mm_move, mm_val = minimax_best_move(g)
-    ab_move, ab_val = alpha_beta_best_move(g)
+    mm_move, mm_val = minimaxBestMove(g)
+    ab_move, ab_val = alphabetaBestMove(g)
     check("Alpha-Beta == Minimax on empty board (val)", mm_val == ab_val, f"mm={mm_val}, ab={ab_val}")
 
     for _ in range(10):
@@ -344,10 +342,10 @@ def run_tests():
         moves = random.sample(range(9), random.randint(0, 4))
         for m in moves:
             if not g.is_terminal():
-                g.make_move(m)
+                g.makeMove(m)
         if not g.is_terminal():
-            mm_move, mm_val = minimax_best_move(g)
-            ab_move, ab_val = alpha_beta_best_move(g)
+            mm_move, mm_val = minimaxBestMove(g)
+            ab_move, ab_val = alphabetaBestMove(g)
             if mm_val != ab_val:
                 check("Alpha-Beta == Minimax on random board", False, f"mm={mm_val}, ab={ab_val}")
                 break
@@ -356,44 +354,44 @@ def run_tests():
 
     g = TicTacToe()
     start = time.perf_counter()
-    minimax_best_move(g)
+    minimaxBestMove(g)
     mm_time = time.perf_counter() - start
 
     start = time.perf_counter()
-    alpha_beta_best_move(g)
+    alphabetaBestMove(g)
     ab_time = time.perf_counter() - start
 
     check("Alpha-Beta faster than Minimax on empty board", ab_time <= mm_time * 2,
           f"mm={mm_time:.4f}s ab={ab_time:.4f}s")
 
-    print("\n--- Heuristic Alpha-Beta ---")
+    print("\nHeuristic Alpha-Beta:")
 
     g = TicTacToe()
     g.board = ["X","O","X", "O","X","O", "O","X"," "]
     g.current_player = "X"
-    h_move, _ = heuristic_alpha_beta_best_move(g, depth=4, heuristic_fn=tictactoe_heuristic)
+    h_move, _ = heuristicAlphabetaBestMove(g, depth=4, heuristic_fn=tictactoeHeuristic)
     check("Heuristic AB: wins immediately at depth 4", h_move == 8, f"move={h_move}")
 
     g = TicTacToe()
     g.board = ["O","X","X", "X","O"," ", " "," ","O"]
     g.current_player = "X"
-    h_move, _ = heuristic_alpha_beta_best_move(g, depth=4, heuristic_fn=tictactoe_heuristic)
+    h_move, _ = heuristicAlphabetaBestMove(g, depth=4, heuristic_fn=tictactoeHeuristic)
     check("Heuristic AB: blocks O win at depth 4", h_move == 5, f"move={h_move}")
 
     g = TicTacToe()
-    h_move, _ = heuristic_alpha_beta_best_move(g, depth=2, heuristic_fn=tictactoe_heuristic)
+    h_move, _ = heuristicAlphabetaBestMove(g, depth=2, heuristic_fn=tictactoeHeuristic)
     check("Heuristic AB depth=2: returns valid move", h_move in range(9), f"move={h_move}")
 
     g = TicTacToe()
-    h_move_d6, _ = heuristic_alpha_beta_best_move(g, depth=9, heuristic_fn=tictactoe_heuristic)
-    ab_move_full, ab_val = alpha_beta_best_move(g)
-    h_move_d6, h_val_d6 = heuristic_alpha_beta_best_move(
+    h_move_d6, _ = heuristicAlphabetaBestMove(g, depth=9, heuristic_fn=tictactoeHeuristic)
+    ab_move_full, ab_val = alphabetaBestMove(g)
+    h_move_d6, h_val_d6 = heuristicAlphabetaBestMove(
     g,
     depth=9,
-    heuristic_fn=tictactoe_heuristic
+    heuristic_fn=tictactoeHeuristic
 )
 
-    ab_move_full, ab_val = alpha_beta_best_move(g)
+    ab_move_full, ab_val = alphabetaBestMove(g)
 
     check(
         "Heuristic AB depth=9 == full AB",
@@ -404,10 +402,10 @@ def run_tests():
     g2 = TicTacToe()
     g2.board = [" "," "," ", " ","X"," ", " "," "," "]
     g2.current_player = "O"
-    score = tictactoe_heuristic(g2, "X")
+    score = tictactoeHeuristic(g2, "X")
     check("Heuristic: center X gives positive score for X", score > 0, f"score={score}")
 
-    print("\n--- Monte Carlo Tree Search ---")
+    print("\nMonte Carlo Tree Search:")
 
     g = TicTacToe()
     g.board = ["X","O","X", "O","X","O", "O","X"," "]
@@ -432,8 +430,8 @@ def run_tests():
             if g.current_player == "X":
                 move, _ = mcts_best_move(g, iterations=300)
             else:
-                move = random.choice(g.get_legal_moves())
-            g.make_move(move)
+                move = random.choice(g.getLegalMoves())
+            g.makeMove(move)
         result = g.get_result("X")
         if result == 1:
             wins_as_x += 1
@@ -447,17 +445,17 @@ def run_tests():
     check("MCTS: backpropagation increments visits", root.visits == 1 and child.visits == 1,
           f"root.visits={root.visits}, child.visits={child.visits}")
 
-    print("\n--- Algorithm vs Algorithm ---")
+    print("\nAlgorithm vs Algorithm:")
 
     ab_wins = mm_wins = draws = 0
     for _ in range(10):
         g = TicTacToe()
         while not g.is_terminal():
             if g.current_player == "X":
-                move, _ = alpha_beta_best_move(g)
+                move, _ = alphabetaBestMove(g)
             else:
-                move, _ = minimax_best_move(g)
-            g.make_move(move)
+                move, _ = minimaxBestMove(g)
+            g.makeMove(move)
         r = g.get_result("X")
         if r == 1: ab_wins += 1
         elif r == -1: mm_wins += 1
@@ -470,10 +468,10 @@ def run_tests():
         g = TicTacToe()
         while not g.is_terminal():
             if g.current_player == "X":
-                move, _ = alpha_beta_best_move(g)
+                move, _ = alphabetaBestMove(g)
             else:
                 move, _ = mcts_best_move(g, iterations=500)
-            g.make_move(move)
+            g.makeMove(move)
         r = g.get_result("X")
         if r == 1: ab_wins_vs_mc += 1
         elif r == -1: mc_wins += 1
@@ -482,22 +480,21 @@ def run_tests():
           ab_wins_vs_mc + draws2 >= mc_wins,
           f"ab_wins={ab_wins_vs_mc}, draws={draws2}, mc_wins={mc_wins}")
 
-    print("\n" + "=" * 60)
+    print("\n")
     print(f"RESULTS: {total_passed} passed, {total_failed} failed out of {total_passed+total_failed} tests")
-    print("=" * 60)
 
 
 if __name__ == "__main__":
     run_tests()
 
-    print("\n\n--- DEMO: Minimax vs Alpha-Beta on a mid-game board ---")
+    print("\n\nDEMO:")
     g = TicTacToe()
     g.board = ["X"," ","O", " ","O"," ", " "," ","X"]
     g.current_player = "X"
     g.display()
-    mm_move, mm_val = minimax_best_move(g)
-    ab_move, ab_val = alpha_beta_best_move(g)
-    h_move, h_val = heuristic_alpha_beta_best_move(g, depth=6, heuristic_fn=tictactoe_heuristic)
+    mm_move, mm_val = minimaxBestMove(g)
+    ab_move, ab_val = alphabetaBestMove(g)
+    h_move, h_val = heuristicAlphabetaBestMove(g, depth=6, heuristic_fn=tictactoeHeuristic)
     mc_move, mc_wr = mcts_best_move(g, iterations=3000)
     print(f"\nMinimax best move:           {mm_move}  (val={mm_val})")
     print(f"Alpha-Beta best move:        {ab_move}  (val={ab_val})")
