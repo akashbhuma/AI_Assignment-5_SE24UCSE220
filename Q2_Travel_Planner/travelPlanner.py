@@ -117,5 +117,48 @@ if plan:
                 print("  -", item)
         else:
             print(f"{key}: {value}")
+
+    print("\nAI Suggestions")
+
+
+    interest_lower = interest.lower()
+
+    if interest_lower == "adventure":
+        print("- Carry safety equipment and comfortable trekking shoes")
+
+    if interest_lower == "nature":
+        print("- Carry a camera and suitable outdoor clothing")
+
+    if interest_lower == "beach":
+        print("- Carry sunscreen, sunglasses and light clothing")
+
+    if interest_lower == "spiritual":
+        print("- Visit major temples and attend local cultural events")
+
+    if budget < 15000:
+        print("- Consider public transport and budget hotels to reduce expenses")
+
+    if budget > 30000:
+        print("- Premium hotels and additional activities can be included")
+
+    if plan["Destination"] == "Hyderabad":
+        print("- Try Hyderabadi Biryani and visit Charminar in the evening")
+
+    if plan["Destination"] == "Chennai":
+        print("- Best time to visit Marina Beach is early morning")
+
+    if plan["Destination"] == "Varanasi":
+        print("- Do not miss the Ganga Aarti at Dashashwamedh Ghat")
+
+    if plan["Destination"] == "Shimla":
+        print("- Carry warm clothes, especially during winter")
+
+    if plan["Destination"] == "Munnar":
+        print("- Visit tea gardens during daylight hours for the best experience")
+
+    if plan["Destination"] == "Kochi":
+        print("- Take a backwater cruise and try local seafood")
+
+    print("\nThank you for using AI Travel Planner!")
 else:
     print("\nNo destination matches your budget and interests.")
